@@ -10,9 +10,9 @@ When a violation is detected, the bot replies indicating which opinion was viola
 
 import asyncio
 import html
-import os
 import json
 import logging
+import os
 import re
 
 import aiohttp
@@ -25,23 +25,12 @@ from google import genai
 
 DISCORD_TOKEN = os.environ.get("DISCORD_BOT_TOKEN")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.8-flash")
 
 OPINIONS_URL = "https://www.correctopinions.info/"
 
 # How often (in seconds) to re-fetch opinions from the website (default: 1 hour)
 OPINIONS_REFRESH_INTERVAL = int(os.environ.get("OPINIONS_REFRESH_INTERVAL", "3600"))
-
-if not DISCORD_TOKEN:
-    raise RuntimeError(
-        "Missing DISCORD_BOT_TOKEN environment variable. "
-        "Create a bot at https://discord.com/developers/applications and set the token."
-    )
-
-if not GEMINI_API_KEY:
-    raise RuntimeError(
-        "Missing GEMINI_API_KEY environment variable. "
-        "Get a free API key at https://aistudio.google.com/app/apikey"
-    )
 
 # ---------------------------------------------------------------------------
 # Logging
@@ -94,6 +83,9 @@ def _parse_opinions(page_html: str) -> dict[int, str]:
     for raw in raw_texts:
         text = html.unescape(raw.strip())
 
+        if not text:
+            continue
+
         # Start capturing after we see the "Correct Opinions" header
         if text == "Correct Opinions":
             capturing = True
@@ -128,7 +120,8 @@ class OpinionStore:
         log.info("Fetching correct opinions from %s ...", OPINIONS_URL)
         try:
             async with aiohttp.ClientSession() as session:
-                async with session.get(OPINIONS_URL, timeout=aiohttp.ClientTimeout(total=30)) as resp:
+                timeout = aiohttp.ClientTimeout(total=30)
+                async with session.get(OPINIONS_URL, timeout=timeout) as resp:
                     resp.raise_for_status()
                     page_html = await resp.text()
 
@@ -168,7 +161,22 @@ opinion_store = OpinionStore()
 # Gemini setup (free tier — gemini-3.8-flash)
 # ---------------------------------------------------------------------------
 
-gemini_client = genai.Client(api_key=GEMINI_API_KEY)
+gemini_client: genai.Client | None = None
+
+
+def _get_gemini_client() -> genai.Client:
+    """Create the Gemini client on first use so imports do not require secrets."""
+    global gemini_client
+
+    if gemini_client is None:
+        if not GEMINI_API_KEY:
+            raise RuntimeError(
+                "Missing GEMINI_API_KEY environment variable. "
+                "Get an API key at https://aistudio.google.com/app/apikey"
+            )
+        gemini_client = genai.Client(api_key=GEMINI_API_KEY)
+
+    return gemini_client
 
 SYSTEM_PROMPT_TEMPLATE = """\
 You are an opinion-violation detector. You will be given a Discord message and a \
@@ -222,8 +230,9 @@ async def check_opinion_violation(
     prompt = f'Discord message: """{message_text}"""'
 
     try:
-        response = await gemini_client.aio.models.generate_content(
-            model="gemini-3.8-flash",
+        gemini = _get_gemini_client()
+        response = await gemini.aio.models.generate_content(
+            model=GEMINI_MODEL,
             contents=system_prompt + "\n\n" + prompt,
             config=genai.types.GenerateContentConfig(
                 temperature=0.1,
@@ -323,6 +332,14 @@ async def on_message(message: discord.Message):
 # ---------------------------------------------------------------------------
 
 async def main():
+    if not DISCORD_TOKEN:
+        raise RuntimeError(
+            "Missing DISCORD_BOT_TOKEN environment variable. "
+            "Create a bot at https://discord.com/developers/applications and set the token."
+        )
+
+    _get_gemini_client()
+
     # Fetch opinions before starting the bot so we fail fast if the site is down
     await opinion_store.refresh()
 

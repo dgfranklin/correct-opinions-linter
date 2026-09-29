@@ -5,6 +5,6 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY bot.py .
+COPY src ./src
 
-CMD ["python", "-u", "bot.py"]
+CMD ["python", "-u", "src/discord_bot.py"]

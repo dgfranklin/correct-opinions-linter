@@ -54,6 +54,7 @@ docker run -d \
 |----------|---------|-------------|
 | `DISCORD_BOT_TOKEN` | *(required)* | Your Discord bot token |
 | `GEMINI_API_KEY` | *(required)* | Your Google Gemini API key |
+| `GEMINI_MODEL` | `gemini-3.8-flash` | Gemini model used to lint messages |
 | `OPINIONS_REFRESH_INTERVAL` | `3600` | How often (in seconds) to re-fetch opinions from the website |
 
 ### Managing the Container
@@ -75,16 +76,34 @@ docker rm -f opinions-bot
 ## Running without Docker
 
 ```bash
-# Install dependencies
-pip install -r requirements.txt
+# Create an isolated environment and install dependencies
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
 
-# Set environment variables
-export DISCORD_BOT_TOKEN="your-discord-bot-token"
-export GEMINI_API_KEY="your-gemini-api-key"
+# Configure the bot, then fill in your real tokens
+cp .env.example .env
+set -a; source .env; set +a
 
 # Run the bot
-python bot.py
+python src/discord_bot.py
 ```
+
+## Development
+
+The development dependencies add Ruff for linting and pytest for tests:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements-dev.txt
+
+ruff check .
+pytest
+```
+
+The test suite and linter do not require API credentials. GitHub Actions runs both on every
+pull request and push to `main`.
 
 ## How It Works
 
