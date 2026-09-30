@@ -1,4 +1,4 @@
-from discord_bot import OpinionStore, _parse_opinions
+from opinions import parse_opinions
 
 
 def test_parse_opinions_extracts_content_after_heading():
@@ -16,7 +16,7 @@ def test_parse_opinions_extracts_content_after_heading():
         </html>
     """
 
-    assert _parse_opinions(page_html) == {
+    assert parse_opinions(page_html) == {
         1: "Water should not taste like anything or be fizzy",
         2: "Movies are always better with subtitles",
     }
@@ -28,16 +28,8 @@ def test_parse_opinions_decodes_html_entities():
         <p>Mac &amp; cheese is a complete meal</p>
     """
 
-    assert _parse_opinions(page_html) == {1: "Mac & cheese is a complete meal"}
+    assert parse_opinions(page_html) == {1: "Mac & cheese is a complete meal"}
 
 
 def test_parse_opinions_returns_empty_dict_without_heading():
-    assert _parse_opinions("<p>Water should not be fizzy</p>") == {}
-
-
-def test_build_opinions_text_formats_numbered_lines():
-    store = OpinionStore()
-
-    assert store.build_opinions_text({2: "Water is still", 7: "Soup is a meal"}) == (
-        "  #2: Water is still\n  #7: Soup is a meal"
-    )
+    assert parse_opinions("<p>Water should not be fizzy</p>") == {}

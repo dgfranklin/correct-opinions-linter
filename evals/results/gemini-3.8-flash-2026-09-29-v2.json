@@ -1,0 +1,623 @@
+{
+  "generated_at": "2026-09-29T15:47:45.074033+00:00",
+  "dataset": "evals/artificial.json",
+  "summary": {
+    "evaluator": "gemini:gemini-3.8-flash",
+    "total": 38,
+    "completed": 38,
+    "errors": 0,
+    "coverage": 1.0,
+    "accuracy": 0.868421052631579,
+    "overall_success_rate": 0.868421052631579,
+    "precision": 1.0,
+    "recall": 0.7368421052631579,
+    "f1": 0.8484848484848484,
+    "opinion_accuracy": 0.7368421052631579,
+    "confusion_matrix": {
+      "true_positives": 14,
+      "true_negatives": 19,
+      "false_positives": 0,
+      "false_negatives": 5
+    }
+  },
+  "cases": [
+    {
+      "id": "new-tech-is-better",
+      "source": "synthetic",
+      "message": "The newest version is always better than the old one.",
+      "expected_violation": true,
+      "expected_opinions": [
+        1
+      ],
+      "actual": {
+        "violation": true,
+        "opinions": [
+          1
+        ],
+        "reason": "The message claims the newest version is always better, directly contradicting opinion #1 that new is always worse."
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "sparkling-water",
+      "source": "synthetic",
+      "message": "Sparkling mineral water is delicious and much better than plain water.",
+      "expected_violation": true,
+      "expected_opinions": [
+        2
+      ],
+      "actual": {
+        "violation": true,
+        "opinions": [
+          2
+        ],
+        "reason": "The user praises sparkling water, directly violating the opinion that water should not taste like anything or be fizzy."
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "sweet-potato-fries",
+      "source": "synthetic",
+      "message": "Sweet potato fries are the best kind of fries.",
+      "expected_violation": true,
+      "expected_opinions": [
+        7
+      ],
+      "actual": {
+        "violation": true,
+        "opinions": [
+          7
+        ],
+        "reason": "The user claims sweet potato fries are the best, contradicting opinion #7 which states that sweet potato fries are bad."
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "brioche-praise",
+      "source": "synthetic",
+      "message": "Brioche is an excellent bread for every sandwich.",
+      "expected_violation": true,
+      "expected_opinions": [
+        10
+      ],
+      "actual": {
+        "violation": true,
+        "opinions": [
+          10
+        ],
+        "reason": "The user praises brioche as an excellent bread, directly contradicting opinion #10 that brioche is a bad bread."
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "cooking-timers",
+      "source": "synthetic",
+      "message": "A timer is absolutely essential whenever you bake anything.",
+      "expected_violation": true,
+      "expected_opinions": [
+        16
+      ],
+      "actual": {
+        "violation": true,
+        "opinions": [
+          16
+        ],
+        "reason": "The message states that a timer is absolutely essential when baking, directly contradicting opinion #16 which states that timers when cooking/baking are unnecessary."
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "mint-dessert",
+      "source": "synthetic",
+      "message": "Mint chocolate chip is my favorite dessert flavor.",
+      "expected_violation": true,
+      "expected_opinions": [
+        21
+      ],
+      "actual": {
+        "violation": true,
+        "opinions": [
+          21
+        ],
+        "reason": "The user praises mint chocolate chip as their favorite dessert flavor, contradicting the opinion that mint isn't good in desserts."
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "vinegar-praise",
+      "source": "synthetic",
+      "message": "I love vinegar; it makes nearly every dish taste better.",
+      "expected_violation": true,
+      "expected_opinions": [
+        23
+      ],
+      "actual": {
+        "violation": true,
+        "opinions": [
+          23
+        ],
+        "reason": "The message expresses a strong love for vinegar, directly contradicting opinion #23 which states that vinegar is bad."
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "white-rice-preference",
+      "source": "synthetic",
+      "message": "White rice is clearly better than brown rice.",
+      "expected_violation": true,
+      "expected_opinions": [
+        37
+      ],
+      "actual": {
+        "violation": true,
+        "opinions": [
+          37
+        ],
+        "reason": "The message states white rice is better than brown rice, which directly contradicts opinion #37 stating that brown rice is better than white rice."
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "cars-are-good",
+      "source": "synthetic",
+      "message": "Cars are wonderful and make cities much better places to live.",
+      "expected_violation": true,
+      "expected_opinions": [
+        39
+      ],
+      "actual": {
+        "violation": true,
+        "opinions": [
+          39
+        ],
+        "reason": "The user states cars are wonderful and improve cities, directly contradicting opinion #39 that cars are bad."
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "taco-bell-criticism",
+      "source": "synthetic",
+      "message": "Taco Bell is the worst fast food chain.",
+      "expected_violation": true,
+      "expected_opinions": [
+        40
+      ],
+      "actual": {
+        "violation": true,
+        "opinions": [
+          40
+        ],
+        "reason": "The user claims Taco Bell is the worst fast food chain, directly contradicting opinion #40 which states it is the best fast food."
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "still-water-agreement",
+      "source": "synthetic",
+      "message": "I only drink plain still water; flavored fizzy water is awful.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "unrelated-weather",
+      "source": "synthetic",
+      "message": "It looks like it might rain this afternoon.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "ambiguous-water",
+      "source": "synthetic",
+      "message": "Please remember to bring water to the picnic.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "mushroom-agreement",
+      "source": "synthetic",
+      "message": "These mushrooms taste fantastic.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "ui-color-agreement",
+      "source": "synthetic",
+      "message": "The color makes this interface much easier to understand.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "headphone-mention",
+      "source": "synthetic",
+      "message": "I left my headphones at home today.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "unsalted-soft-pretzel",
+      "source": "synthetic",
+      "message": "I'll have a soft pretzel without salt, please.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "harry-potter-mention",
+      "source": "synthetic",
+      "message": "I watched a Harry Potter movie last night.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "dog-mention",
+      "source": "synthetic",
+      "message": "The dog needs to go for a walk before dinner.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "taco-bell-fact",
+      "source": "synthetic",
+      "message": "The Taco Bell near me closes at ten tonight.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "observed-baking-precision",
+      "source": "observed_false_negative",
+      "message": "Baking is a science and it's important to be precise.",
+      "expected_violation": true,
+      "expected_opinions": [
+        15
+      ],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": false
+    },
+    {
+      "id": "observed-milk-with-spicy-food",
+      "source": "observed_false_negative",
+      "message": "Milk is helpful when you're eating something spicy.",
+      "expected_violation": true,
+      "expected_opinions": [
+        22
+      ],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": false
+    },
+    {
+      "id": "observed-soda-stream",
+      "source": "observed_false_negative",
+      "message": "I want a SodaStream.",
+      "expected_violation": true,
+      "expected_opinions": [
+        2
+      ],
+      "actual": {
+        "violation": true,
+        "opinions": [
+          2
+        ],
+        "reason": "Wanting a SodaStream implies a desire to make and drink fizzy/carbonated water, which contradicts the opinion that water should not be fizzy."
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "observed-vroom-machines",
+      "source": "observed_false_negative",
+      "message": "I low-key think the vroom vroom machines are better than bikes.",
+      "expected_violation": true,
+      "expected_opinions": [
+        39
+      ],
+      "actual": {
+        "violation": true,
+        "opinions": [
+          39
+        ],
+        "reason": "The user favorably compares cars ('vroom vroom machines') to bikes, contradicting the opinion that cars are bad."
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "observed-pickup-commute",
+      "source": "observed_false_negative",
+      "message": "I love to commute in my pickup truck.",
+      "expected_violation": true,
+      "expected_opinions": [
+        39
+      ],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": false
+    },
+    {
+      "id": "observed-chipotle-favorite",
+      "source": "observed_false_negative",
+      "message": "Chipotle is my favorite place to get a burrito.",
+      "expected_violation": true,
+      "expected_opinions": [
+        40
+      ],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": false
+    },
+    {
+      "id": "observed-salad-dressing",
+      "source": "observed_false_negative",
+      "message": "Most salad dressing is really good.",
+      "expected_violation": true,
+      "expected_opinions": [
+        23
+      ],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": false
+    },
+    {
+      "id": "observed-star-wars-episode-one",
+      "source": "observed_false_negative",
+      "message": "The Star Wars soundtrack peaked with Episode I.",
+      "expected_violation": true,
+      "expected_opinions": [
+        32
+      ],
+      "actual": {
+        "violation": true,
+        "opinions": [
+          32
+        ],
+        "reason": "Claiming the Star Wars soundtrack peaked with Episode I contradicts opinion #32, which states Battle of the Heroes (from Episode III) is better than Duel of the Fates (from Episode I)."
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "observed-cuaron-harry-potter",
+      "source": "observed_false_negative",
+      "message": "Man, I really love what Alfonso Cuar\u00f3n did with that Harry Potter movie.",
+      "expected_violation": true,
+      "expected_opinions": [
+        4
+      ],
+      "actual": {
+        "violation": true,
+        "opinions": [
+          4
+        ],
+        "reason": "Alfonso Cuar\u00f3n directed Harry Potter and the Prisoner of Azkaban, and expressing love for his work on that movie contradicts the opinion that Prisoner of Azkaban is the worst Harry Potter movie."
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "observed-spinach-agreement",
+      "source": "observed_valid_opinion",
+      "message": "Spinach is the best leafy green.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "eyeball-measurements-agreement",
+      "source": "synthetic",
+      "message": "I never bother with measuring cups; I just eyeball every ingredient.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "water-with-dinner-agreement",
+      "source": "synthetic",
+      "message": "Water is all I ever need to drink with dinner.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "cars-are-bad-agreement",
+      "source": "synthetic",
+      "message": "Cars make cities noisier, dirtier, and less pleasant.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "taco-bell-favorite-agreement",
+      "source": "synthetic",
+      "message": "Taco Bell is easily my favorite fast food restaurant.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "irrelevant-bike-maintenance",
+      "source": "synthetic",
+      "message": "My bike chain needs to be oiled this weekend.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "irrelevant-baking-status",
+      "source": "synthetic",
+      "message": "The bread is baking in the oven now.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "irrelevant-star-wars-fact",
+      "source": "synthetic",
+      "message": "John Williams composed music for the Star Wars films.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": true
+    },
+    {
+      "id": "irrelevant-salad-status",
+      "source": "synthetic",
+      "message": "The leftover salad is in the refrigerator.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "actual": {
+        "violation": false,
+        "opinions": [],
+        "reason": null
+      },
+      "error": null,
+      "passed": true
+    }
+  ]
+}

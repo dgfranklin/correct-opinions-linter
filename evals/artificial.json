@@ -1,0 +1,288 @@
+{
+  "name": "Artificial Correct Opinions evaluation set",
+  "description": "Synthetic and observed messages labeled against a snapshot of correctopinions.info.",
+  "source": "https://www.correctopinions.info/",
+  "snapshot_date": "2026-09-29",
+  "opinions": {
+    "1": "New is always worse",
+    "2": "Water should not taste like anything or be fizzy",
+    "3": "Chocolate should not be chewed",
+    "4": "Prisoner of Azkaban is the worst Harry Potter movie",
+    "5": "The most important part of a phone is the headphone jack",
+    "6": "All smells are bad",
+    "7": "Sweet potato fries are bad",
+    "8": "Venting is not allowed in Among Us hide and seek",
+    "9": "Mushrooms taste great",
+    "10": "Brioche is a bad bread",
+    "11": "Spinach is the best leafy green",
+    "12": "Bananas should be peeled from the middle",
+    "13": "Full zip is better than quarter zip",
+    "14": "Pitchers should have to bat",
+    "15": "Measuring cups/spoons are unnecessary",
+    "16": "Timers when cooking/baking are unnecessary",
+    "17": "Bash scripts are fun",
+    "18": "Color is good in UI",
+    "19": "Snails are cute",
+    "20": "Slightly green bananas are better",
+    "21": "Mint isn't good in desserts",
+    "22": "Water is the only beverage that makes sense to drink at meals",
+    "23": "Vinegar is bad",
+    "24": "printf debugging is better than using a debugger",
+    "25": "Chairs are bad",
+    "26": "Burnt (hard) pretzels are better",
+    "27": "Soft pretzels are better without salt",
+    "28": "The rainbow is red orange yellow green blue PURPLE - none of this indigo violet nonsense",
+    "29": "Raw cookie dough is bad",
+    "30": "Violas are better than violins",
+    "31": "Punycode is bad",
+    "32": "Battle of the Heroes is better than Duel of the Fates",
+    "33": "Nonfiction is boring",
+    "34": "Dogs are worse than cats because they aren't soft enough",
+    "35": "Peaches are better than nectarines because the fuzz is the best part",
+    "36": "Airplane seats would be more comfortable if they had less legroom",
+    "37": "Brown rice is better than white rice",
+    "38": "Emojis shouldn't move",
+    "39": "Cars are bad",
+    "40": "Taco Bell is the best fast food"
+  },
+  "cases": [
+    {
+      "id": "new-tech-is-better",
+      "message": "The newest version is always better than the old one.",
+      "expected_violation": true,
+      "expected_opinions": [1]
+    },
+    {
+      "id": "sparkling-water",
+      "message": "Sparkling mineral water is delicious and much better than plain water.",
+      "expected_violation": true,
+      "expected_opinions": [2]
+    },
+    {
+      "id": "sweet-potato-fries",
+      "message": "Sweet potato fries are the best kind of fries.",
+      "expected_violation": true,
+      "expected_opinions": [7]
+    },
+    {
+      "id": "brioche-praise",
+      "message": "Brioche is an excellent bread for every sandwich.",
+      "expected_violation": true,
+      "expected_opinions": [10]
+    },
+    {
+      "id": "cooking-timers",
+      "message": "A timer is absolutely essential whenever you bake anything.",
+      "expected_violation": true,
+      "expected_opinions": [16]
+    },
+    {
+      "id": "mint-dessert",
+      "message": "Mint chocolate chip is my favorite dessert flavor.",
+      "expected_violation": true,
+      "expected_opinions": [21]
+    },
+    {
+      "id": "vinegar-praise",
+      "message": "I love vinegar; it makes nearly every dish taste better.",
+      "expected_violation": true,
+      "expected_opinions": [23]
+    },
+    {
+      "id": "white-rice-preference",
+      "message": "White rice is clearly better than brown rice.",
+      "expected_violation": true,
+      "expected_opinions": [37]
+    },
+    {
+      "id": "cars-are-good",
+      "message": "Cars are wonderful and make cities much better places to live.",
+      "expected_violation": true,
+      "expected_opinions": [39]
+    },
+    {
+      "id": "taco-bell-criticism",
+      "message": "Taco Bell is the worst fast food chain.",
+      "expected_violation": true,
+      "expected_opinions": [40]
+    },
+    {
+      "id": "still-water-agreement",
+      "message": "I only drink plain still water; flavored fizzy water is awful.",
+      "expected_violation": false,
+      "expected_opinions": []
+    },
+    {
+      "id": "unrelated-weather",
+      "message": "It looks like it might rain this afternoon.",
+      "expected_violation": false,
+      "expected_opinions": []
+    },
+    {
+      "id": "ambiguous-water",
+      "message": "Please remember to bring water to the picnic.",
+      "expected_violation": false,
+      "expected_opinions": []
+    },
+    {
+      "id": "mushroom-agreement",
+      "message": "These mushrooms taste fantastic.",
+      "expected_violation": false,
+      "expected_opinions": []
+    },
+    {
+      "id": "ui-color-agreement",
+      "message": "The color makes this interface much easier to understand.",
+      "expected_violation": false,
+      "expected_opinions": []
+    },
+    {
+      "id": "headphone-mention",
+      "message": "I left my headphones at home today.",
+      "expected_violation": false,
+      "expected_opinions": []
+    },
+    {
+      "id": "unsalted-soft-pretzel",
+      "message": "I'll have a soft pretzel without salt, please.",
+      "expected_violation": false,
+      "expected_opinions": []
+    },
+    {
+      "id": "harry-potter-mention",
+      "message": "I watched a Harry Potter movie last night.",
+      "expected_violation": false,
+      "expected_opinions": []
+    },
+    {
+      "id": "dog-mention",
+      "message": "The dog needs to go for a walk before dinner.",
+      "expected_violation": false,
+      "expected_opinions": []
+    },
+    {
+      "id": "taco-bell-fact",
+      "message": "The Taco Bell near me closes at ten tonight.",
+      "expected_violation": false,
+      "expected_opinions": []
+    },
+    {
+      "id": "observed-baking-precision",
+      "message": "Baking is a science and it's important to be precise.",
+      "expected_violation": true,
+      "expected_opinions": [15],
+      "source": "observed_false_negative"
+    },
+    {
+      "id": "observed-milk-with-spicy-food",
+      "message": "Milk is helpful when you're eating something spicy.",
+      "expected_violation": true,
+      "expected_opinions": [22],
+      "source": "observed_false_negative"
+    },
+    {
+      "id": "observed-soda-stream",
+      "message": "I want a SodaStream.",
+      "expected_violation": true,
+      "expected_opinions": [2],
+      "source": "observed_false_negative"
+    },
+    {
+      "id": "observed-vroom-machines",
+      "message": "I low-key think the vroom vroom machines are better than bikes.",
+      "expected_violation": true,
+      "expected_opinions": [39],
+      "source": "observed_false_negative"
+    },
+    {
+      "id": "observed-pickup-commute",
+      "message": "I love to commute in my pickup truck.",
+      "expected_violation": true,
+      "expected_opinions": [39],
+      "source": "observed_false_negative"
+    },
+    {
+      "id": "observed-chipotle-favorite",
+      "message": "Chipotle is my favorite place to get a burrito.",
+      "expected_violation": true,
+      "expected_opinions": [40],
+      "source": "observed_false_negative"
+    },
+    {
+      "id": "observed-salad-dressing",
+      "message": "Most salad dressing is really good.",
+      "expected_violation": true,
+      "expected_opinions": [23],
+      "source": "observed_false_negative"
+    },
+    {
+      "id": "observed-star-wars-episode-one",
+      "message": "The Star Wars soundtrack peaked with Episode I.",
+      "expected_violation": true,
+      "expected_opinions": [32],
+      "source": "observed_false_negative"
+    },
+    {
+      "id": "observed-cuaron-harry-potter",
+      "message": "Man, I really love what Alfonso Cuarón did with that Harry Potter movie.",
+      "expected_violation": true,
+      "expected_opinions": [4],
+      "source": "observed_false_negative"
+    },
+    {
+      "id": "observed-spinach-agreement",
+      "message": "Spinach is the best leafy green.",
+      "expected_violation": false,
+      "expected_opinions": [],
+      "source": "observed_valid_opinion"
+    },
+    {
+      "id": "eyeball-measurements-agreement",
+      "message": "I never bother with measuring cups; I just eyeball every ingredient.",
+      "expected_violation": false,
+      "expected_opinions": []
+    },
+    {
+      "id": "water-with-dinner-agreement",
+      "message": "Water is all I ever need to drink with dinner.",
+      "expected_violation": false,
+      "expected_opinions": []
+    },
+    {
+      "id": "cars-are-bad-agreement",
+      "message": "Cars make cities noisier, dirtier, and less pleasant.",
+      "expected_violation": false,
+      "expected_opinions": []
+    },
+    {
+      "id": "taco-bell-favorite-agreement",
+      "message": "Taco Bell is easily my favorite fast food restaurant.",
+      "expected_violation": false,
+      "expected_opinions": []
+    },
+    {
+      "id": "irrelevant-bike-maintenance",
+      "message": "My bike chain needs to be oiled this weekend.",
+      "expected_violation": false,
+      "expected_opinions": []
+    },
+    {
+      "id": "irrelevant-baking-status",
+      "message": "The bread is baking in the oven now.",
+      "expected_violation": false,
+      "expected_opinions": []
+    },
+    {
+      "id": "irrelevant-star-wars-fact",
+      "message": "John Williams composed music for the Star Wars films.",
+      "expected_violation": false,
+      "expected_opinions": []
+    },
+    {
+      "id": "irrelevant-salad-status",
+      "message": "The leftover salad is in the refrigerator.",
+      "expected_violation": false,
+      "expected_opinions": []
+    }
+  ]
+}

@@ -105,6 +105,37 @@ pytest
 The test suite and linter do not require API credentials. GitHub Actions runs both on every
 pull request and push to `main`.
 
+### Project layout
+
+- `src/discord_bot.py` is the Discord entry point.
+- `src/evaluators/` contains the common evaluator contract and model implementation.
+- `src/opinions.py` fetches and parses the canonical opinion list.
+- `src/eval_runner.py` is the model-evaluation CLI; datasets and recorded reports live in
+  `evals/`.
+- `tests/` contains credential-free unit tests.
+
+### Model evaluations
+
+Opinion classification is separate from the Discord transport. Evaluators implement the
+`OpinionEvaluator` interface, and the bot currently uses `GeminiOpinionEvaluator`. This keeps
+the model implementation swappable without changing Discord message handling.
+
+The repository includes a balanced dataset with 38 labeled synthetic and observed messages and
+a snapshot of the 40 opinions used to label them. Run it against the configured model with:
+
+```bash
+set -a; source .env.local; set +a
+python src/eval_runner.py
+```
+
+The runner reports coverage, accuracy over completed cases, overall success rate, precision,
+recall, F1, opinion-identification accuracy, and a confusion matrix. Requests are sequential
+with a 4.1-second delay by default to stay within a
+15-request-per-minute limit, and each case has a 30-second timeout. Use `--delay 0` for an account
+with sufficient quota, `--case sparkling-water` or `--limit 5` for quota-conscious runs,
+`--timeout 60` for a slower model, or
+`--output evals/results/latest.json` to save per-case details.
+
 ## How It Works
 
 1. On startup, the bot fetches the current list of correct opinions from [correctopinions.info](https://www.correctopinions.info/)
