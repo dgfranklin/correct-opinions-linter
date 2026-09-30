@@ -6,10 +6,18 @@ import json
 import os
 from dataclasses import dataclass
 from datetime import UTC, datetime
+from math import ceil
 from pathlib import Path
+from statistics import mean, median
+from time import perf_counter
 from typing import Any
 
-from evaluators import EvaluationResult, GeminiOpinionEvaluator, OpinionEvaluator
+from evaluators import (
+    SUPPORTED_PROVIDERS,
+    EvaluationResult,
+    OpinionEvaluator,
+    create_evaluator,
+)
 
 DEFAULT_DATASET = Path(__file__).resolve().parent.parent / "evals/artificial.json"
 
@@ -146,13 +154,15 @@ async def run_dataset(
     cases: list[EvalCase],
     delay: float = 0,
     timeout: float = 30,
-) -> tuple[list[EvaluationResult | None], list[dict[str, Any]]]:
+) -> tuple[list[EvaluationResult | None], list[float], list[dict[str, Any]]]:
     """Evaluate cases sequentially to respect provider rate limits."""
     results: list[EvaluationResult | None] = []
+    latencies: list[float] = []
     details: list[dict[str, Any]] = []
 
     for index, case in enumerate(cases, start=1):
         error_message = None
+        started_at = perf_counter()
         try:
             result = await asyncio.wait_for(
                 evaluator.evaluate(case.message, opinions), timeout=timeout
@@ -160,8 +170,10 @@ async def run_dataset(
         except Exception as error:
             result = None
             error_message = f"{type(error).__name__}: {error}"
+        latency = perf_counter() - started_at
 
         results.append(result)
+        latencies.append(latency)
         passed = result is not None and result.violation == case.expected_violation
         if passed and case.expected_violation:
             passed = set(case.expected_opinion_ids).issubset(result.opinion_ids)
@@ -187,7 +199,15 @@ async def run_dataset(
                     "violation": result.violation,
                     "opinions": list(result.opinion_ids),
                     "reason": result.reason,
+                    "opinion_scores": result.opinion_scores,
+                    "usage": None
+                    if result.usage is None
+                    else {
+                        "input_tokens": result.usage.input_tokens,
+                        "output_tokens": result.usage.output_tokens,
+                    },
                 },
+                "latency_seconds": latency,
                 "error": error_message,
                 "passed": passed,
             }
@@ -196,11 +216,56 @@ async def run_dataset(
         if delay and index < len(cases):
             await asyncio.sleep(delay)
 
-    return results, details
+    return results, latencies, details
 
 
-def metrics_payload(evaluator: OpinionEvaluator, metrics: EvalMetrics) -> dict[str, Any]:
+def performance_payload(
+    results: list[EvaluationResult | None], latencies: list[float]
+) -> dict[str, Any]:
+    """Aggregate provider-reported tokens and measured request latency."""
+    completed_latencies = [
+        latency
+        for result, latency in zip(results, latencies, strict=True)
+        if result is not None
+    ]
+    sorted_latencies = sorted(completed_latencies)
+    usages = [result.usage for result in results if result is not None and result.usage]
+    input_counts = [usage.input_tokens for usage in usages if usage.input_tokens is not None]
+    output_counts = [
+        usage.output_tokens for usage in usages if usage.output_tokens is not None
+    ]
+
+    latency_summary = None
+    if sorted_latencies:
+        p95_index = ceil(0.95 * len(sorted_latencies)) - 1
+        latency_summary = {
+            "total": sum(sorted_latencies),
+            "mean": mean(sorted_latencies),
+            "median": median(sorted_latencies),
+            "p95": sorted_latencies[p95_index],
+            "min": sorted_latencies[0],
+            "max": sorted_latencies[-1],
+        }
+
     return {
+        "latency_seconds": latency_summary,
+        "token_usage": {
+            "requests_reported": len(usages),
+            "input_total": sum(input_counts),
+            "output_total": sum(output_counts),
+            "input_mean": mean(input_counts) if input_counts else None,
+            "output_mean": mean(output_counts) if output_counts else None,
+        },
+    }
+
+
+def metrics_payload(
+    evaluator: OpinionEvaluator,
+    metrics: EvalMetrics,
+    results: list[EvaluationResult | None],
+    latencies: list[float],
+) -> dict[str, Any]:
+    payload = {
         "evaluator": evaluator.name,
         "total": metrics.total,
         "completed": metrics.completed,
@@ -219,13 +284,11 @@ def metrics_payload(evaluator: OpinionEvaluator, metrics: EvalMetrics) -> dict[s
             "false_negatives": metrics.false_negatives,
         },
     }
+    payload.update(performance_payload(results, latencies))
+    return payload
 
 
 async def async_main(args: argparse.Namespace) -> int:
-    api_key = os.environ.get("GEMINI_API_KEY")
-    if not api_key:
-        raise RuntimeError("GEMINI_API_KEY is required to run model evaluations")
-
     opinions, cases = load_dataset(args.dataset)
     if args.case:
         requested = set(args.case)
@@ -238,13 +301,25 @@ async def async_main(args: argparse.Namespace) -> int:
     if not cases:
         raise ValueError("No evaluation cases selected")
 
-    evaluator = GeminiOpinionEvaluator(api_key=api_key, model=args.model)
+    gemini_model = args.model or os.environ.get("GEMINI_MODEL", "gemini-3.8-flash")
+    jev_model = args.model or os.environ.get("JEV_MODEL", "jev-latest")
+    evaluator = create_evaluator(
+        args.provider,
+        gemini_api_key=os.environ.get("GEMINI_API_KEY"),
+        gemini_model=gemini_model,
+        jev_api_key=os.environ.get("TYPESAFE_API_KEY") or os.environ.get("JEV_API_KEY"),
+        jev_model=jev_model,
+        jev_threshold=args.threshold,
+    )
+    delay = args.delay
+    if delay is None:
+        delay = 4.1 if args.provider == "gemini" else 0
     print(f"Running {len(cases)} cases with {evaluator.name}")
-    results, details = await run_dataset(
-        evaluator, opinions, cases, args.delay, args.timeout
+    results, latencies, details = await run_dataset(
+        evaluator, opinions, cases, delay, args.timeout
     )
     metrics = calculate_metrics(cases, results)
-    summary = metrics_payload(evaluator, metrics)
+    summary = metrics_payload(evaluator, metrics, results, latencies)
 
     print("\nMetrics")
     print(json.dumps(summary, indent=2))
@@ -269,7 +344,21 @@ async def async_main(args: argparse.Namespace) -> int:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset", type=Path, default=DEFAULT_DATASET)
-    parser.add_argument("--model", default=os.environ.get("GEMINI_MODEL", "gemini-3.8-flash"))
+    parser.add_argument(
+        "--provider",
+        choices=SUPPORTED_PROVIDERS,
+        default=os.environ.get("OPINION_EVALUATOR", "jev"),
+    )
+    parser.add_argument(
+        "--model",
+        help="Provider model override (defaults to GEMINI_MODEL or JEV_MODEL)",
+    )
+    parser.add_argument(
+        "--threshold",
+        type=float,
+        default=float(os.environ.get("JEV_THRESHOLD", "0.5")),
+        help="Jev Noul probability threshold (default: 0.5)",
+    )
     parser.add_argument(
         "--case",
         action="append",
@@ -279,8 +368,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--delay",
         type=float,
-        default=4.1,
-        help="Seconds between requests (default: 4.1, safe for 15 RPM)",
+        help="Seconds between requests (default: 4.1 for Gemini, 0 for Jev)",
     )
     parser.add_argument(
         "--timeout",

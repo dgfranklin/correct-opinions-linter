@@ -1,8 +1,12 @@
+import asyncio
+from types import SimpleNamespace
+
 import pytest
 
-from evaluators.evaluator import EvaluationResult, OpinionEvaluator
+from evaluators.evaluator import EvaluationResult, OpinionEvaluator, TokenUsage
 from evaluators.gemini_evaluator import (
     EvaluationError,
+    GeminiOpinionEvaluator,
     build_opinions_text,
     parse_evaluation_response,
 )
@@ -48,3 +52,26 @@ def test_fake_evaluator_satisfies_common_interface():
     evaluator: OpinionEvaluator = FakeEvaluator()
 
     assert evaluator.name == "fake:test"
+
+
+def test_gemini_evaluator_records_billable_output_and_input_tokens():
+    class FakeModels:
+        async def generate_content(self, **kwargs):
+            return SimpleNamespace(
+                text='{"violation": false}',
+                usage_metadata=SimpleNamespace(
+                    prompt_token_count=1_200,
+                    candidates_token_count=18,
+                    thoughts_token_count=42,
+                ),
+            )
+
+    client = SimpleNamespace(aio=SimpleNamespace(models=FakeModels()))
+    evaluator = GeminiOpinionEvaluator(api_key="test-key", client=client)
+
+    result = asyncio.run(evaluator.evaluate("Plain water is great.", OPINIONS))
+
+    assert result == EvaluationResult(
+        violation=False,
+        usage=TokenUsage(input_tokens=1_200, output_tokens=60),
+    )

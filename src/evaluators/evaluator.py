@@ -1,7 +1,15 @@
 """Model-independent interface for evaluating messages against opinions."""
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Protocol
+
+
+@dataclass(frozen=True)
+class TokenUsage:
+    """Provider-reported token consumption for one evaluation."""
+
+    input_tokens: int | None = None
+    output_tokens: int | None = None
 
 
 @dataclass(frozen=True)
@@ -11,6 +19,8 @@ class EvaluationResult:
     violation: bool
     opinion_ids: tuple[int, ...] = ()
     reason: str | None = None
+    opinion_scores: dict[int, float] = field(default_factory=dict)
+    usage: TokenUsage | None = None
 
 
 class OpinionEvaluator(Protocol):

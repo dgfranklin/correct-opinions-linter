@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-29T15:47:45.074033+00:00",
+  "generated_at": "2026-09-29T16:32:20.978512+00:00",
   "dataset": "evals/artificial.json",
   "summary": {
     "evaluator": "gemini:gemini-3.8-flash",
@@ -18,6 +18,21 @@
       "true_negatives": 19,
       "false_positives": 0,
       "false_negatives": 5
+    },
+    "latency_seconds": {
+      "total": 76.11630279105157,
+      "mean": 2.003060599764515,
+      "median": 1.4088288405910134,
+      "p95": 4.543528557755053,
+      "min": 0.8531062314286828,
+      "max": 9.277400763705373
+    },
+    "token_usage": {
+      "requests_reported": 38,
+      "input_total": 30303,
+      "output_total": 4045,
+      "input_mean": 797.4473684210526,
+      "output_mean": 106.44736842105263
     }
   },
   "cases": [
@@ -34,8 +49,14 @@
         "opinions": [
           1
         ],
-        "reason": "The message claims the newest version is always better, directly contradicting opinion #1 that new is always worse."
+        "reason": "The user asserts that newer versions are always better, directly contradicting opinion #1 which states that new is always worse.",
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 798,
+          "output_tokens": 41
+        }
       },
+      "latency_seconds": 1.1370507702231407,
       "error": null,
       "passed": true
     },
@@ -52,8 +73,14 @@
         "opinions": [
           2
         ],
-        "reason": "The user praises sparkling water, directly violating the opinion that water should not taste like anything or be fizzy."
+        "reason": "The user praises sparkling mineral water over plain water, which contradicts the opinion that water should not taste like anything or be fizzy.",
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 800,
+          "output_tokens": 97
+        }
       },
+      "latency_seconds": 1.3682844303548336,
       "error": null,
       "passed": true
     },
@@ -70,8 +97,14 @@
         "opinions": [
           7
         ],
-        "reason": "The user claims sweet potato fries are the best, contradicting opinion #7 which states that sweet potato fries are bad."
+        "reason": "The user states sweet potato fries are the best kind of fries, directly contradicting opinion #7 that sweet potato fries are bad.",
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 797,
+          "output_tokens": 43
+        }
       },
+      "latency_seconds": 4.296564686112106,
       "error": null,
       "passed": true
     },
@@ -88,8 +121,14 @@
         "opinions": [
           10
         ],
-        "reason": "The user praises brioche as an excellent bread, directly contradicting opinion #10 that brioche is a bad bread."
+        "reason": "The user claims Brioche is an excellent bread, directly contradicting the opinion that Brioche is a bad bread.",
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 797,
+          "output_tokens": 78
+        }
       },
+      "latency_seconds": 1.2144010281190276,
       "error": null,
       "passed": true
     },
@@ -106,8 +145,14 @@
         "opinions": [
           16
         ],
-        "reason": "The message states that a timer is absolutely essential when baking, directly contradicting opinion #16 which states that timers when cooking/baking are unnecessary."
+        "reason": "The user states that a timer is absolutely essential when baking, directly contradicting opinion #16 which asserts that timers when cooking/baking are unnecessary.",
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 797,
+          "output_tokens": 49
+        }
       },
+      "latency_seconds": 1.3247429551556706,
       "error": null,
       "passed": true
     },
@@ -124,8 +169,14 @@
         "opinions": [
           21
         ],
-        "reason": "The user praises mint chocolate chip as their favorite dessert flavor, contradicting the opinion that mint isn't good in desserts."
+        "reason": "The user claims mint chocolate chip is their favorite dessert flavor, contradicting the opinion that mint isn't good in desserts.",
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 796,
+          "output_tokens": 51
+        }
       },
+      "latency_seconds": 1.0752890510484576,
       "error": null,
       "passed": true
     },
@@ -142,8 +193,14 @@
         "opinions": [
           23
         ],
-        "reason": "The message expresses a strong love for vinegar, directly contradicting opinion #23 which states that vinegar is bad."
+        "reason": "The user states they love vinegar and that it makes dishes taste better, directly contradicting opinion #23 that vinegar is bad.",
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 799,
+          "output_tokens": 93
+        }
       },
+      "latency_seconds": 1.1984016979113221,
       "error": null,
       "passed": true
     },
@@ -160,8 +217,14 @@
         "opinions": [
           37
         ],
-        "reason": "The message states white rice is better than brown rice, which directly contradicts opinion #37 stating that brown rice is better than white rice."
+        "reason": "The message states white rice is better than brown rice, which directly contradicts opinion #37 stating brown rice is better than white rice.",
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 796,
+          "output_tokens": 54
+        }
       },
+      "latency_seconds": 1.2662094561383128,
       "error": null,
       "passed": true
     },
@@ -178,8 +241,14 @@
         "opinions": [
           39
         ],
-        "reason": "The user states cars are wonderful and improve cities, directly contradicting opinion #39 that cars are bad."
+        "reason": "The user states cars are wonderful and improve cities, directly contradicting opinion #39 that cars are bad.",
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 799,
+          "output_tokens": 40
+        }
       },
+      "latency_seconds": 1.7004289757460356,
       "error": null,
       "passed": true
     },
@@ -196,8 +265,14 @@
         "opinions": [
           40
         ],
-        "reason": "The user claims Taco Bell is the worst fast food chain, directly contradicting opinion #40 which states it is the best fast food."
+        "reason": "The user states that Taco Bell is the worst fast food chain, directly contradicting opinion #40 which states that Taco Bell is the best fast food.",
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 797,
+          "output_tokens": 49
+        }
       },
+      "latency_seconds": 1.1583639802411199,
       "error": null,
       "passed": true
     },
@@ -210,8 +285,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 801,
+          "output_tokens": 6
+        }
       },
+      "latency_seconds": 2.8582110684365034,
       "error": null,
       "passed": true
     },
@@ -224,8 +305,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 796,
+          "output_tokens": 34
+        }
       },
+      "latency_seconds": 1.0997692765668035,
       "error": null,
       "passed": true
     },
@@ -238,8 +325,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 796,
+          "output_tokens": 76
+        }
       },
+      "latency_seconds": 1.5583722712472081,
       "error": null,
       "passed": true
     },
@@ -252,8 +345,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 792,
+          "output_tokens": 6
+        }
       },
+      "latency_seconds": 1.4911724496632814,
       "error": null,
       "passed": true
     },
@@ -266,8 +365,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 797,
+          "output_tokens": 62
+        }
       },
+      "latency_seconds": 1.3729365225881338,
       "error": null,
       "passed": true
     },
@@ -280,8 +385,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 795,
+          "output_tokens": 74
+        }
       },
+      "latency_seconds": 1.136533168144524,
       "error": null,
       "passed": true
     },
@@ -294,8 +405,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 799,
+          "output_tokens": 6
+        }
       },
+      "latency_seconds": 1.1061734668910503,
       "error": null,
       "passed": true
     },
@@ -308,8 +425,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 796,
+          "output_tokens": 74
+        }
       },
+      "latency_seconds": 1.4072785945609212,
       "error": null,
       "passed": true
     },
@@ -322,8 +445,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 798,
+          "output_tokens": 80
+        }
       },
+      "latency_seconds": 1.349964971654117,
       "error": null,
       "passed": true
     },
@@ -336,8 +465,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 797,
+          "output_tokens": 75
+        }
       },
+      "latency_seconds": 1.2860372867435217,
       "error": null,
       "passed": true
     },
@@ -352,8 +487,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 801,
+          "output_tokens": 6
+        }
       },
+      "latency_seconds": 0.8531062314286828,
       "error": null,
       "passed": false
     },
@@ -368,8 +509,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 798,
+          "output_tokens": 156
+        }
       },
+      "latency_seconds": 3.7255056500434875,
       "error": null,
       "passed": false
     },
@@ -386,8 +533,14 @@
         "opinions": [
           2
         ],
-        "reason": "Wanting a SodaStream implies a desire to make and drink fizzy/carbonated water, which contradicts the opinion that water should not be fizzy."
+        "reason": "Wanting a SodaStream, a device made to carbonate water, contradicts the opinion that water should not be fizzy.",
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 793,
+          "output_tokens": 329
+        }
       },
+      "latency_seconds": 2.433594266884029,
       "error": null,
       "passed": true
     },
@@ -404,8 +557,14 @@
         "opinions": [
           39
         ],
-        "reason": "The user favorably compares cars ('vroom vroom machines') to bikes, contradicting the opinion that cars are bad."
+        "reason": "Referring to cars as 'vroom vroom machines' and saying they are better than bikes contradicts the opinion that cars are bad.",
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 803,
+          "output_tokens": 734
+        }
       },
+      "latency_seconds": 9.277400763705373,
       "error": null,
       "passed": true
     },
@@ -420,8 +579,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 796,
+          "output_tokens": 154
+        }
       },
+      "latency_seconds": 2.8226593295112252,
       "error": null,
       "passed": false
     },
@@ -436,8 +601,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 799,
+          "output_tokens": 121
+        }
       },
+      "latency_seconds": 1.7653742441907525,
       "error": null,
       "passed": false
     },
@@ -452,8 +623,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 794,
+          "output_tokens": 106
+        }
       },
+      "latency_seconds": 1.5824995134025812,
       "error": null,
       "passed": false
     },
@@ -470,8 +647,14 @@
         "opinions": [
           32
         ],
-        "reason": "Claiming the Star Wars soundtrack peaked with Episode I contradicts opinion #32, which states Battle of the Heroes (from Episode III) is better than Duel of the Fates (from Episode I)."
+        "reason": "Claiming the Star Wars soundtrack peaked with Episode I contradicts opinion #32, which holds that Episode III's 'Battle of the Heroes' is better than Episode I's 'Duel of the Fates'.",
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 796,
+          "output_tokens": 656
+        }
       },
+      "latency_seconds": 4.204666221514344,
       "error": null,
       "passed": true
     },
@@ -488,8 +671,14 @@
         "opinions": [
           4
         ],
-        "reason": "Alfonso Cuar\u00f3n directed Harry Potter and the Prisoner of Azkaban, and expressing love for his work on that movie contradicts the opinion that Prisoner of Azkaban is the worst Harry Potter movie."
+        "reason": "The user praises Alfonso Cuar\u00f3n's Harry Potter movie (Prisoner of Azkaban), which contradicts the opinion that it is the worst Harry Potter movie.",
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 804,
+          "output_tokens": 295
+        }
       },
+      "latency_seconds": 2.4173230854794383,
       "error": null,
       "passed": true
     },
@@ -502,8 +691,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 795,
+          "output_tokens": 92
+        }
       },
+      "latency_seconds": 1.7223014142364264,
       "error": null,
       "passed": true
     },
@@ -516,8 +711,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 800,
+          "output_tokens": 6
+        }
       },
+      "latency_seconds": 1.0633507259190083,
       "error": null,
       "passed": true
     },
@@ -530,8 +731,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 798,
+          "output_tokens": 76
+        }
       },
+      "latency_seconds": 1.5211079409345984,
       "error": null,
       "passed": true
     },
@@ -544,8 +751,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 800,
+          "output_tokens": 6
+        }
       },
+      "latency_seconds": 2.1064479993656278,
       "error": null,
       "passed": true
     },
@@ -558,8 +771,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 798,
+          "output_tokens": 83
+        }
       },
+      "latency_seconds": 1.1254112077876925,
       "error": null,
       "passed": true
     },
@@ -572,8 +791,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 797,
+          "output_tokens": 52
+        }
       },
+      "latency_seconds": 1.3258684063330293,
       "error": null,
       "passed": true
     },
@@ -586,8 +811,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 796,
+          "output_tokens": 73
+        }
       },
+      "latency_seconds": 1.4103790866211057,
       "error": null,
       "passed": true
     },
@@ -600,8 +831,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 797,
+          "output_tokens": 6
+        }
       },
+      "latency_seconds": 1.8095920383930206,
       "error": null,
       "passed": true
     },
@@ -614,8 +851,14 @@
       "actual": {
         "violation": false,
         "opinions": [],
-        "reason": null
+        "reason": null,
+        "opinion_scores": {},
+        "usage": {
+          "input_tokens": 795,
+          "output_tokens": 6
+        }
       },
+      "latency_seconds": 4.543528557755053,
       "error": null,
       "passed": true
     }

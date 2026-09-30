@@ -1,11 +1,12 @@
 """Gemini implementation of the opinion evaluator interface."""
 
 import json
+from dataclasses import replace
 from typing import Any
 
 from google import genai
 
-from evaluators.evaluator import EvaluationResult
+from evaluators.evaluator import EvaluationResult, TokenUsage
 
 SYSTEM_PROMPT_TEMPLATE = """\
 You are an opinion-violation detector. You will be given a message and a numbered \
@@ -145,4 +146,22 @@ class GeminiOpinionEvaluator:
 
         if not response.text:
             raise EvaluationError("Model returned an empty response")
-        return parse_evaluation_response(response.text, opinions)
+
+        result = parse_evaluation_response(response.text, opinions)
+        metadata = response.usage_metadata
+        usage = None
+        if metadata is not None:
+            output_parts = (
+                metadata.candidates_token_count,
+                metadata.thoughts_token_count,
+            )
+            output_tokens = (
+                sum(count or 0 for count in output_parts)
+                if any(count is not None for count in output_parts)
+                else None
+            )
+            usage = TokenUsage(
+                input_tokens=metadata.prompt_token_count,
+                output_tokens=output_tokens,
+            )
+        return replace(result, usage=usage)

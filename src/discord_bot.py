@@ -1,9 +1,9 @@
 """
 Correct Opinions Linter
 
-Listens to every message in a Discord server and uses Google Gemini (free tier)
-to determine if the message violates any of the "correct opinions" fetched live
-from https://www.correctopinions.info/
+Listens to every message in a Discord server and uses the configured model
+evaluator to determine if the message violates any of the "correct opinions"
+fetched live from https://www.correctopinions.info/
 
 When a violation is detected, the bot replies indicating which opinion was violated.
 """
@@ -14,7 +14,7 @@ import os
 
 import discord
 
-from evaluators import GeminiOpinionEvaluator, OpinionEvaluator
+from evaluators import OpinionEvaluator, create_evaluator
 from opinions import OpinionStore
 
 # ---------------------------------------------------------------------------
@@ -24,6 +24,10 @@ from opinions import OpinionStore
 DISCORD_TOKEN = os.environ.get("DISCORD_BOT_TOKEN")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.8-flash")
+TYPESAFE_API_KEY = os.environ.get("TYPESAFE_API_KEY") or os.environ.get("JEV_API_KEY")
+JEV_MODEL = os.environ.get("JEV_MODEL", "jev-latest")
+JEV_THRESHOLD = float(os.environ.get("JEV_THRESHOLD", "0.5"))
+OPINION_EVALUATOR = os.environ.get("OPINION_EVALUATOR", "jev")
 
 # How often (in seconds) to re-fetch opinions from the website (default: 1 hour)
 OPINIONS_REFRESH_INTERVAL = int(os.environ.get("OPINIONS_REFRESH_INTERVAL", "3600"))
@@ -47,12 +51,14 @@ def _get_evaluator() -> OpinionEvaluator:
     global evaluator
 
     if evaluator is None:
-        if not GEMINI_API_KEY:
-            raise RuntimeError(
-                "Missing GEMINI_API_KEY environment variable. "
-                "Get an API key at https://aistudio.google.com/app/apikey"
-            )
-        evaluator = GeminiOpinionEvaluator(api_key=GEMINI_API_KEY, model=GEMINI_MODEL)
+        evaluator = create_evaluator(
+            OPINION_EVALUATOR,
+            gemini_api_key=GEMINI_API_KEY,
+            gemini_model=GEMINI_MODEL,
+            jev_api_key=TYPESAFE_API_KEY,
+            jev_model=JEV_MODEL,
+            jev_threshold=JEV_THRESHOLD,
+        )
 
     return evaluator
 

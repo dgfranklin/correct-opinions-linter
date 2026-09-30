@@ -4,8 +4,9 @@ from eval_runner import (
     EvalCase,
     calculate_metrics,
     load_dataset,
+    performance_payload,
 )
-from evaluators.evaluator import EvaluationResult
+from evaluators.evaluator import EvaluationResult, TokenUsage
 
 
 def test_artificial_dataset_is_valid_and_balanced():
@@ -51,3 +52,29 @@ def test_calculate_metrics_counts_classification_and_opinion_matches():
     assert metrics.recall == 0.5
     assert metrics.f1 == 0.5
     assert metrics.opinion_accuracy == 0.5
+
+
+def test_performance_payload_aggregates_usage_and_latency():
+    results = [
+        EvaluationResult(False, usage=TokenUsage(100, 10)),
+        EvaluationResult(False, usage=TokenUsage(200, 20)),
+        None,
+    ]
+
+    performance = performance_payload(results, [0.1, 0.3, 1.0])
+
+    assert performance["token_usage"] == {
+        "requests_reported": 2,
+        "input_total": 300,
+        "output_total": 30,
+        "input_mean": 150,
+        "output_mean": 15,
+    }
+    assert performance["latency_seconds"] == {
+        "total": 0.4,
+        "mean": 0.2,
+        "median": 0.2,
+        "p95": 0.3,
+        "min": 0.1,
+        "max": 0.3,
+    }
